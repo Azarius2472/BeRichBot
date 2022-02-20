@@ -1,0 +1,6 @@
+[
+  {
+  "buttonText": "GET Prediction",
+  "buttonFunction": "prediction"
+  }
+]
