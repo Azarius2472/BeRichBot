@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0492afa8-ef3a-4aae-b11c-a625cc372914" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/consts/commands.consts.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/company.consts.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/greetings.consts.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/textConsts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/tokenConst.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mocks/companies.mock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mocks/companybyticker.mock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mocks/prediction.mock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/apiService.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/mainService.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mocks/prediction.mock.json" beforeDir="false" afterPath="$PROJECT_DIR$/mocks/prediction.mock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/apiService.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/apiService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/mainService.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/mainService.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

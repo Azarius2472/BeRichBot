@@ -5,7 +5,7 @@ from telebot import types  # для указание типов
 
 def getGreetingsMenu():
     greetKB = types.InlineKeyboardMarkup()
-    menuButtons = getGreetingsMenuJSON()
+    menuButtons = getDataFromJsonConst("consts/greetings.consts.json")
 
     for buttonValue in menuButtons:
         keyboardButton = types.InlineKeyboardButton(
@@ -15,9 +15,10 @@ def getGreetingsMenu():
 
     return greetKB
 
+
 def getCommandsMenu():
     commandsKB = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    menuButtons = getComandsMenuJSON()
+    menuButtons = getDataFromJsonConst("consts/commands.consts.json")
 
     for buttonValue in menuButtons:
         keyboardButton = types.KeyboardButton(text=buttonValue['buttonText'])
@@ -25,16 +26,18 @@ def getCommandsMenu():
 
     return commandsKB
 
-def getCompanyMenu():
+
+def getCompanyMenu(company):
     menuKB = types.InlineKeyboardMarkup()
-    menuButtons = getCompanyMenuJSON()
+    menuButtons = getDataFromJsonConst("consts/company.consts.json")
 
     for buttonValue in menuButtons:
         keyboardButton = types.InlineKeyboardButton(text=buttonValue['buttonText'],
-                                                    callback_data=buttonValue['buttonFunction'])
+                                                    callback_data=buttonValue['buttonFunction']+'.'+company)
         menuKB.add(keyboardButton)
 
     return menuKB
+
 
 def getCompanyListMenu(companies):
     commandsKB = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -46,17 +49,8 @@ def getCompanyListMenu(companies):
 
     return commandsKB
 
-def getComandsMenuJSON():
-    with open("consts/commands.consts.json") as json_file:
-        data = json.load(json_file)
-    return data
 
-def getGreetingsMenuJSON():
-    with open("consts/greetings.consts.json") as json_file:
-        data = json.load(json_file)
-    return data
-
-def getCompanyMenuJSON():
-    with open("consts/company.consts.json") as json_file:
+def getDataFromJsonConst(path):
+    with open(path) as json_file:
         data = json.load(json_file)
     return data
