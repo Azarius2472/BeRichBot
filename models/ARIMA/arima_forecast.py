@@ -62,7 +62,7 @@ def forecast_arima(file, n_periods, freq='D', use_saved_model=True):
         with open('auto_arima.pkl', 'rb') as pkl:
             model = pickle.load(pkl)
 
-        model.update(data)  # update the model with the new data
+        model.fit(data)  # update the model with the new data
     else:
         model = train_arima(data)
 
