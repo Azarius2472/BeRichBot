@@ -1,6 +1,7 @@
 import json
 from .companyService import getAll
 from .companyService import getByTickerOrName
+from .predictionService import get_arima_prediction
 
 
 def apiRichBotGetAvailableCompanies():
@@ -13,15 +14,44 @@ def apiRichBotGetCompanyByTickerOrName(ticker):
     if len(data) == 0:
         return None
 
-    resultText = '\n\n' + data[0]['name'] + '\nTicker: ' + '\t' + data[0]['ticker']
+    resultText = '\n\n' + data[0]['name'] + '\nTicker: ' + '\t' + data[0]['ticker'] + '\nFigi: ' + '\t' + data[0][
+        'figi']
     return resultText
 
 
-def apiRichBotGetPredictionForCompany(ticker):
-    # TODO rewrite when API is ready
-    with open("mocks/prediction.mock.json") as json_file:
-        data = json.load(json_file)
-    response = reformatPrediction(data)
+def apiRichBotGetPredictionForCompany(tickerOrName, data_url: str):
+    company = getByTickerOrName(tickerOrName)
+
+    if len(company) == 0:
+        return None
+
+    company = company[0]
+    currentPrice, price5minutes, price1hour, price1day = get_arima_prediction(company['ticker'], company['figi'],
+                                                                              data_url)
+    predict_result = {
+        "name": company['name'],
+        "currentPrice": {
+            "text": "Current:",
+            "value": currentPrice,
+            "style": "\\U0001F537"
+        },
+        "price5minutes": {
+            "text": "5 minutes Prediction:",
+            "value": price5minutes,
+            "style": "\\U0001F53B"
+        },
+        "price1hour": {
+            "text": "1 hour Prediction:",
+            "value": price1hour,
+            "style": "\\U0001F53B"
+        },
+        "price1day": {
+            "text": "1 day Prediction:",
+            "value": price1day,
+            "style": "\\U0001F53C"
+        }
+    }
+    response = reformatPrediction(predict_result)
     return response
 
 

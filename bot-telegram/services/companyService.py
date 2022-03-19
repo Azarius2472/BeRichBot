@@ -1,6 +1,6 @@
 import pandas as pd
 
-companies_file_name = "../data/companies_dataset.csv"
+companies_file_name = "../data/reduced_dataset.csv"
 companies = pd.read_csv(companies_file_name)
 
 
