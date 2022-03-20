@@ -38,26 +38,32 @@ def apiRichBotGetPredictionForCompany(tickerOrName, models_url: str):
         "price1hors": {
             "text": "1 hour Prediction:",
             "value": str(price1hors),
-            "style": "\\U0001F53B"
+            "style": getStickerForPrediction(currentPrice, price1hors)
         },
         "price12hors": {
             "text": "12 hours Prediction:",
             "value": str(price12hors),
-            "style": "\\U0001F53B"
+            "style": getStickerForPrediction(currentPrice, price12hors)
         },
         "price24hors": {
             "text": "24 hours Prediction:",
             "value": str(price24hors),
-            "style": "\\U0001F53C"
+            "style": getStickerForPrediction(currentPrice, price24hors)
         },
         "price48hors": {
             "text": "48 hours Prediction:",
             "value": str(price48hors),
-            "style": "\\U0001F53C"
+            "style": getStickerForPrediction(currentPrice, price48hors)
         }
     }
     response = reformatPrediction(predict_result)
     return response
+
+
+def getStickerForPrediction(currectValue, predictionValue):
+    if currectValue > predictionValue:
+        return "\\U0001F53B"
+    return "\\U0001F53C"
 
 
 def reformatPrediction(data):
