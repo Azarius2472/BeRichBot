@@ -8,7 +8,7 @@ from services.mainService import getCompanyListMenu
 from consts.textConsts import CONTACTS_TEXT
 from consts.textConsts import INFO_ABOUT_BOT_TEXT
 from consts.tokenConst import BOT_TOKEN
-from consts.commonConst import DATA_PATH
+from consts.commonConst import DATA_PATH, MODELS_PATH
 
 from services.apiService import apiRichBotGetAvailableCompanies
 from services.apiService import apiRichBotGetCompanyByTickerOrName
@@ -103,8 +103,9 @@ def getInfo(call):
 
 @bot.callback_query_handler(func=lambda call: PREDICTION in call.data)
 def getInfo(call):
-    companyName = call.data.split('.')[1]
-    predictionText = apiRichBotGetPredictionForCompany(companyName, DATA_PATH)
+    companyName = call.data
+    companyName = companyName.replace(companyName.split('.')[0] + ".", '')
+    predictionText = apiRichBotGetPredictionForCompany(companyName, MODELS_PATH)
     markup = getCommandsMenu()
     bot.send_message(call.from_user.id, call.from_user.first_name + ', ' + predictionText,
                      reply_markup=markup,

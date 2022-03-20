@@ -1,7 +1,7 @@
 import json
 from .companyService import getAll
 from .companyService import getByTickerOrName
-from .predictionService import get_arima_prediction
+from .predictionService import get_prediction
 
 
 def apiRichBotGetAvailableCompanies():
@@ -19,35 +19,40 @@ def apiRichBotGetCompanyByTickerOrName(ticker):
     return resultText
 
 
-def apiRichBotGetPredictionForCompany(tickerOrName, data_url: str):
+def apiRichBotGetPredictionForCompany(tickerOrName, models_url: str):
     company = getByTickerOrName(tickerOrName)
 
     if len(company) == 0:
         return None
 
     company = company[0]
-    currentPrice, price5minutes, price1hour, price1day = get_arima_prediction(company['ticker'], company['figi'],
-                                                                              data_url)
+    currentPrice, price1hors, price12hors, price24hors, price48hors = get_prediction(company['ticker'], company['figi'],
+                                                                                     models_url)
     predict_result = {
         "name": company['name'],
         "currentPrice": {
             "text": "Current:",
-            "value": currentPrice,
+            "value": str(currentPrice),
             "style": "\\U0001F537"
         },
-        "price5minutes": {
-            "text": "5 minutes Prediction:",
-            "value": price5minutes,
-            "style": "\\U0001F53B"
-        },
-        "price1hour": {
+        "price1hors": {
             "text": "1 hour Prediction:",
-            "value": price1hour,
+            "value": str(price1hors),
             "style": "\\U0001F53B"
         },
-        "price1day": {
-            "text": "1 day Prediction:",
-            "value": price1day,
+        "price12hors": {
+            "text": "12 hours Prediction:",
+            "value": str(price12hors),
+            "style": "\\U0001F53B"
+        },
+        "price24hors": {
+            "text": "24 hours Prediction:",
+            "value": str(price24hors),
+            "style": "\\U0001F53C"
+        },
+        "price48hors": {
+            "text": "48 hours Prediction:",
+            "value": str(price48hors),
             "style": "\\U0001F53C"
         }
     }
@@ -56,15 +61,22 @@ def apiRichBotGetPredictionForCompany(tickerOrName, data_url: str):
 
 
 def reformatPrediction(data):
-    text = data[0]
+    text = data
     textString = text['name'] + '\n'
     textString = textString + text['currentPrice']['text'] + '\n' + text['currentPrice']['value'] + ' ' + \
                  text['currentPrice']['style'] + '\n' + '\n'
-    textString = textString + text['price5minutes']['text'] + '\n' + text['price5minutes'][
-        'value'] + ' ' + text['price5minutes']['style'] + '\n' + '\n'
-    textString = textString + text['price1hour']['text'] + '\n' + text['price1hour']['value'] + ' ' + \
-                 text['price1hour']['style'] + '\n' + '\n'
-    textString = textString + text['price1day']['text'] + '\n' + text['price1day']['value'] + ' ' + text['price1day'][
-        'style'] + '\n' + '\n'
+
+    textString = textString + text['price1hors']['text'] + '\n' + text['price1hors'][
+        'value'] + ' ' + text['price1hors']['style'] + '\n' + '\n'
+
+    textString = textString + text['price12hors']['text'] + '\n' + text['price12hors']['value'] + ' ' + \
+                 text['price12hors']['style'] + '\n' + '\n'
+
+    textString = textString + text['price24hors']['text'] + '\n' + text['price24hors']['value'] + ' ' + \
+                 text['price24hors']['style'] + '\n' + '\n'
+
+    textString = textString + text['price48hors']['text'] + '\n' + text['price48hors']['value'] + ' ' + \
+                 text['price48hors']['style'] + '\n' + '\n'
+
     decodedTextString = bytes(textString, "utf-8").decode("unicode_escape")
     return decodedTextString

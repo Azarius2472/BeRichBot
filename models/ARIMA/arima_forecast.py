@@ -47,7 +47,6 @@ class ArimaPredictor:
             data = data.resample('H').mean()
             data = data.fillna(data.bfill())
 
-        print(data)
         if self.model is not None:
             self.model.update(data)  # update the model with the new data
         else:

@@ -53,14 +53,10 @@ def get_current_price(ticker: str, figi: str):
                 response = list(client.get_all_candles(figi=figi, from_=from_data,
                                                        interval=CandleInterval.CANDLE_INTERVAL_HOUR))
                 candles.extend(response)
-                return response
+                error = None
             except Exception as e:
                 from_data = from_data - timedelta(hours=2)
                 error = e
                 print(e)
 
-    return candles[-1]
-
-
-if __name__ == '__main__':
-    print(get_current_price("AAPL", "BBG000B9XRY4"))
+    return float(str(candles[-1].close.units) + "." + str(candles[-1].close.nano))
