@@ -1,11 +1,5 @@
-from models.ARIMA import arima_forecast
-from datetime import datetime, timedelta
-import pytz
+from datetime import datetime
 
-from tinkoff.invest import CandleInterval, Client
-from tinkoff.invest.token import TOKEN
-import pandas as pd
-import time
 from dateutil import parser
 from os import listdir
 from os.path import isfile, join, splitext

@@ -1,5 +1,11 @@
 from tinkoff.invest import CandleInterval, Client
-from tinkoff.invest.token import TOKEN
+
+try:
+    from tinkoff.invest.token import TOKEN, InvestTokenNotFound
+except Exception as e:
+    print(e)
+    TOKEN = None
+
 import pandas as pd
 import time
 from datetime import datetime, timedelta
@@ -45,6 +51,10 @@ def build_dataframe_for_figi(ticker: str, figi: str, from_, to):
 
 def get_current_price(ticker: str, figi: str):
     candles = []
+
+    if TOKEN is None:
+        return -1
+
     with Client(TOKEN) as client:
         error = {}
         from_data = datetime.utcnow() - timedelta(days=1)
