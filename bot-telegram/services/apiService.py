@@ -19,7 +19,7 @@ def apiRichBotGetCompanyByTickerOrName(ticker):
     return resultText
 
 
-def apiRichBotGetPredictionForCompany(tickerOrName, models_url: str):
+def apiRichBotGetPredictionForCompany(tickerOrName, data_url: str, models_url: str):
     company = getByTickerOrName(tickerOrName)
 
     if len(company) == 0:
@@ -27,6 +27,7 @@ def apiRichBotGetPredictionForCompany(tickerOrName, models_url: str):
 
     company = company[0]
     currentPrice, price1hors, price12hors, price24hors, price48hors = get_prediction(company['ticker'], company['figi'],
+                                                                                     data_url,
                                                                                      models_url)
     predict_result = {
         "name": company['name'],

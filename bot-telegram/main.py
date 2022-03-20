@@ -105,7 +105,7 @@ def getInfo(call):
 def getInfo(call):
     companyName = call.data
     companyName = companyName.replace(companyName.split('.')[0] + ".", '')
-    predictionText = apiRichBotGetPredictionForCompany(companyName, MODELS_PATH)
+    predictionText = apiRichBotGetPredictionForCompany(companyName, DATA_PATH, MODELS_PATH)
     markup = getCommandsMenu()
     bot.send_message(call.from_user.id, call.from_user.first_name + ', ' + predictionText,
                      reply_markup=markup,

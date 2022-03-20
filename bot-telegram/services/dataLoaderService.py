@@ -11,6 +11,13 @@ import time
 from datetime import datetime, timedelta
 
 
+def load_data_from_path(csv_name):
+    data = pd.read_csv(csv_name, parse_dates=['time'])
+    last_date = pd.to_datetime(data['time']).iloc[-1]
+    data = data.set_index('time')
+    return data.astype('float32'), last_date
+
+
 def build_dataframe_for_figi(ticker: str, figi: str, from_, to):
     start_time = time.time()
     candles = []
@@ -75,3 +82,48 @@ def get_current_price(ticker: str, figi: str):
                 print(e)
 
     return float(str(candles[-1].close.units) + "." + str(candles[-1].close.nano))
+
+
+def get_last_hour_data(figi: str):
+    candles = []
+
+    if TOKEN is None:
+        return -1
+
+    with Client(TOKEN) as client:
+        error = {}
+        from_data = datetime.utcnow() - timedelta(hours=2)
+        while error is not None or len(candles) < 60:
+            try:
+                response = list(client.get_all_candles(figi=figi, from_=from_data,
+                                                       interval=CandleInterval.CANDLE_INTERVAL_1_MIN))
+
+                if len(response) == 0:
+                    from_data = from_data - timedelta(hours=1)
+                    continue
+
+                candles.extend(response)
+                error = None
+            except Exception as e:
+                from_data = from_data - timedelta(hours=1)
+                error = e
+                print(e)
+
+    candles_as_dict = []
+    for c in candles:
+        c_open = float(str(c.open.units) + "." + str(c.open.nano))
+        c_close = float(str(c.close.units) + "." + str(c.close.nano))
+        c_high = float(str(c.high.units) + "." + str(c.high.nano))
+        c_low = float(str(c.low.units) + "." + str(c.low.nano))
+
+        c_dict = c.__dict__
+        c_dict['open'] = c_open
+        c_dict['close'] = c_close
+        c_dict['high'] = c_high
+        c_dict['low'] = c_low
+        del c_dict['is_complete']
+        candles_as_dict.append(c_dict)
+
+    result_ds = pd.DataFrame(candles_as_dict)
+    result_ds = result_ds.set_index('time')
+    return result_ds.astype('float32')
