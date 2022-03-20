@@ -33,16 +33,17 @@ def get_arima_prediction(pkl_name: str):
            predicted_values[-1]
 
 
-def find_pkl_name(ticker, models_url):
-    all_models = [f for f in listdir(models_url) if isfile(join(models_url, f))]
+def find_arima_pkl_name(ticker, models_url):
+    arima_models_url = f"{models_url}/arima"
+    all_models = [f for f in listdir(arima_models_url) if isfile(join(arima_models_url, f))]
     for model_filename in all_models:
         if model_filename.startswith(ticker):
-            return f"{models_url}/{model_filename}"
+            return f"{arima_models_url}/{model_filename}"
     return None
 
 
 def get_prediction(ticker: str, figi: str, models_url: str):
-    pkl_name = find_pkl_name(ticker, models_url)
+    pkl_name = find_arima_pkl_name(ticker, models_url)
     if pkl_name is None:
         print(f"Trained model is not found for ticker:={ticker}")
         return None

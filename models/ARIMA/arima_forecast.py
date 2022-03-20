@@ -57,6 +57,8 @@ class ArimaPredictor:
     def save_model(self, path: str):
         with open(path, 'wb+') as pkl:
             pickle.dump(self.model, pkl)
+
+
 def train_arima(data):
     model = pm.auto_arima(data,
                           start_p=1, max_p=3,
