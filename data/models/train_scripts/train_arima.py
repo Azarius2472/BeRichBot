@@ -1,7 +1,7 @@
 import pandas as pd
 
 from os import listdir
-from os.path import isfile, join, splitext
+from os.path import splitext
 
 from models.ARIMA.arima_forecast import ArimaPredictor
 
@@ -19,7 +19,6 @@ if __name__ == '__main__':
         data = data.set_index('time')
 
         p.train(data, freq='D')
-        print(p.predict(48, freq='D'))
 
         date_path_part_str = str(p.last_data_elem).replace(':', '_')
         pkl_name = f"{arima_model_path}/{ticker}#{date_path_part_str}.pkl"

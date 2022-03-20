@@ -28,6 +28,7 @@ def build_dataframe_for_figi(ticker: str, figi: str, from_, to):
             try:
                 response = list(client.get_all_candles(figi=figi, from_=from_, to=to,
                                                        interval=CandleInterval.CANDLE_INTERVAL_1_MIN))
+                print(f"Got {len(response)} candles.")
                 candles.extend(response)
                 error = None
             except Exception as e:

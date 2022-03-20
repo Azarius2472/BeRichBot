@@ -40,10 +40,6 @@ def find_arima_pkl_name(ticker, models_url):
     return None
 
 
-def get_lstm_prediction(ticker, data_url, models_url):
-    pass
-
-
 def get_prediction(ticker: str, figi: str, data_url: str, models_url: str):
     pkl_name = find_arima_pkl_name(ticker, models_url)
     if pkl_name is None:
