@@ -52,6 +52,11 @@ def get_current_price(ticker: str, figi: str):
             try:
                 response = list(client.get_all_candles(figi=figi, from_=from_data,
                                                        interval=CandleInterval.CANDLE_INTERVAL_HOUR))
+
+                if len(response) == 0:
+                    from_data = from_data - timedelta(hours=2)
+                    continue
+
                 candles.extend(response)
                 error = None
             except Exception as e:
